@@ -46,9 +46,17 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             },
             ModifierResolvers: {},
             ApplicationResolvers: {
+              api: {
+                PathPattern: '/api*',
+                Priority: 500,
+              },
               oBiotechDataApi: {
                 PathPattern: '/api/o-biotech/data*',
-                Priority: 500,
+                Priority: 600,
+              },
+              oBiotechEaCApi: {
+                PathPattern: '/api/o-biotech/eac*',
+                Priority: 600,
               },
               synaptic: {
                 PathPattern: '/api/synaptic*',
@@ -62,7 +70,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
           },
         },
         Applications: {
-          oBiotechDataApi: {
+          api: {
             Details: {
               Name: 'API',
               Description: 'The API proxy.',
@@ -70,7 +78,29 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             ModifierResolvers: {},
             Processor: {
               Type: 'Proxy',
+              ProxyRoot: Deno.env.get('O_BIOTECH_API_ROOT')!,
+            } as EaCProxyProcessor,
+          },
+          oBiotechDataApi: {
+            Details: {
+              Name: 'Data API',
+              Description: 'The Data API proxy.',
+            },
+            ModifierResolvers: {},
+            Processor: {
+              Type: 'Proxy',
               ProxyRoot: Deno.env.get('O_BIOTECH_DATA_API_ROOT')!,
+            } as EaCProxyProcessor,
+          },
+          oBiotechEaCApi: {
+            Details: {
+              Name: 'EaC API',
+              Description: 'The EaC API proxy.',
+            },
+            ModifierResolvers: {},
+            Processor: {
+              Type: 'Proxy',
+              ProxyRoot: Deno.env.get('O_BIOTECH_EAC_API_ROOT')!,
             } as EaCProxyProcessor,
           },
           synaptic: {
