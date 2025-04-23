@@ -1,1 +1,1 @@
-# open-biotech-core-runtime
+# core-runtime
